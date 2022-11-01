@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>LCMA</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+<div class="splash">
+    <h3>Welcome to the Lawn+Care Management Application.</h3>
+    Use the links above to begin accessing the many features this app provides.
+        <div style="margin:auto;width:30%;margin-top: 200px">
+            Below are some statistics of the company:
+            <div class="stats">
+            Our {{employees}} employees enable us to provide impeccable service for our
+            {{owners}} customers, by managing over {{properties}} of their properties.
+            </div>
+        </div>
+</div>
+{% endblock %}

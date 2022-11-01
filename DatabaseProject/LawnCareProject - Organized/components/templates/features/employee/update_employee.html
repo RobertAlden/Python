@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Update Employee</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a class="active" href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+<h1 style="text-align: center">Update Employee Info: {{ employee.FName~" "~employee.LName }} </h1>
+
+<form class="resp-form" action="/update_employee/{{employee.WMID}}" method="POST">
+    <h4>Register New Employee:</h4><br>
+    <label for="fname">First Name:</label>
+    <input type="text" name="fname" id="fname" value="{{employee.FName}}" required><br>
+    <label for="lname">Last Name:</label>
+    <input type="text" name="lname" id="lname" value="{{employee.LName}}" required><br>
+    <label>Hourly Rate (cents):</label>
+    <input type="text" name="payrate" id="payrate" value="{{employee.PayRate}}" required><br>
+    <label>Hire Date:</label>
+    <input type="date" name="hiredate" id="hiredate" value="{{employee.HireDate.strftime('%Y-%m-%d') }}" required><br>
+    <label>Phone Number:</label>
+    <input type="tel" name="num" id="num" value="{{employee.PhoneNum}}" ><br>
+    <input type="submit" value="Update Employee"><br>
+    <a href="/add_employee">Back to Employees</a>
+</form>
+{% endblock %}

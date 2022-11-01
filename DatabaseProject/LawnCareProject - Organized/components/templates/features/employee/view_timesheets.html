@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Viewing Timesheet</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a class="active" href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Timesheets for {{ employee.FName ~ " " ~ employee.LName }} </h1>
+    {% if timesheets|length < 1 %}
+    <h4 style="text-align: center">There are no timesheets for this employee on record.</h4>
+    {% else %}
+    
+    <form class="resp-form" action="/view_timesheets/{{employee.WMID}}" method="POST">
+        Showing timesheets:<br>
+        <label>From:</label>
+        <input type="date" name="startdate" id="startdate"><br>
+        <label>To:</label>
+        <input type="date" name="enddate" id="enddate"><br>
+        <input type="submit" name="submit_button" value="Filter">
+    </form>
+    <br>
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Time Start</th>
+            <th>Time End</th>
+            <th>Duration</th>
+            <th>Wage Earned</th>
+            <th>Manage</th>
+        </tr>
+        {% for timesheet in timesheets %}
+            <tr>
+                <td>
+                    {{ timesheet.StartTime.strftime('%Y-%m-%d') }}
+                </td>
+                <td>
+                    {{ timesheet.StartTime }}
+                </td>
+                <td>
+                    {{ timesheet.EndTime }}
+                </td>
+                <td>
+                    {{ timesheet.StartTime|date_sub(timesheet.EndTime) }} hours
+                </td>
+                <td>
+                    {{"$%.2f"|format(
+                        (timesheet.StartTime|date_sub(timesheet.EndTime))*
+                        (timesheet.PayRate)/100
+                        ) 
+                    }}
+                    ({{ "$%.2f"|format(timesheet.PayRate/100) }} per hour)
+                </td>
+                <td>
+                    <a href="/delete_timesheet/{{timesheet.TSID}}" onclick="return confirm('Are you sure you would like to delete this timesheet?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="4" style="text-align:right;"> Total Wages Earned: </td>
+                <td>
+                    {{ "$%.2f"|format((timesheets|totalwage)/100) }}
+                </td>
+                <td></td>
+            </tr>
+    </table>
+    
+    </div>
+    {% endif %}
+    <div class="resp-form">
+    <a href="/add_employee">Back to Employees</a>
+    </div>
+{% endblock %}

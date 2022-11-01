@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Repairs</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a class="active" href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Repair Log for {{equip.EquipDesc}}  </h1>
+    {% if repairs|length < 1 %}
+    <h4 style="text-align: center">There are no repairs. Register one below.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Repair Description</th>
+            <th>Repair Date</th>
+            <th>Manage</th>
+        </tr>
+        {% for repair in repairs %}
+            <tr>
+                <td>{{ repair.RepairDesc }}</td>
+                <td>
+                    {{ repair.RepairDate.strftime('%Y-%m-%d') }}
+                </td>
+                <td>
+                    <a href="/delete_repair/{{equip.EquipID}}/{{repair.RepairID}}" onclick="return confirm('Are you sure you would like to delete this repair?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+
+    <form class="resp-form" action="/add_repair/{{equip.EquipID}}" method="POST">
+        <label for="state">Repair Description:</label>
+        <input type="text" name="desc" id="desc" required><br>
+        <label>Date Repair Occurred:</label>
+        <input type="date" name="repairdate" id="repairdate" required><br>
+        <input type="submit" value="Add Repair">
+        <br>
+        <a href="/add_equip">Back to Equipment</a>
+    </form>
+    
+{% endblock %}

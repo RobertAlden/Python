@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Update Service</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a class="active" href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+<h1 style="text-align: center">Update Service</h1>
+
+<form class="resp-form" action="/update_service/{{service.ServiceID}}" method="POST">
+    <h4>Update Service:</h4><br>
+    <label>Service Description:</label>
+    <input type="text" name="desc" id="desc" value="{{service.ServiceDesc}}" required><br>
+    <label>Service Base Price (cents):</label>
+    <input type="num" name="basecost" id="basecost" value="{{service.BaseCost}}" required><br>
+    <label>Service Hourly Price (cents):</label>
+    <input type="num" name="hourcost" id="hourcost" value="{{service.HourCost}}" required><br>
+    <input type="submit" value="Update Service"><br>
+    <a href="/add_service">Back to Main Page</a>
+</form>
+
+{% endblock %}

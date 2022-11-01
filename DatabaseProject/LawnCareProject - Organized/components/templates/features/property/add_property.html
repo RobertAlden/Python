@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Property for {{owner.FName~" "~owner.LName}}</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Properties registered under {{owner.FName~" "~owner.LName}} </h1>
+    {% if properties|length < 1 %}
+    <h4 style="text-align: center">There are no properties. Register one below.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        {% for property in properties %}
+            <tr>
+                <td>
+                    {{ property.PropertyDesc }}
+                </td>
+                <td>
+                    {{ property.StreetAddress~", "~property.City~" "~property.State~" "~property.Zip}}
+                </td>
+                <td>
+                    <a href="/prop_workorders/{{owner.OwnerID}}/{{property.PropertyID}}">View Workorders</a><br>
+                    <a href="/update_prop/{{owner.OwnerID}}/{{property.PropertyID}}">Update Property</a><br>
+                    <a href="/delete_prop/{{owner.OwnerID}}/{{property.PropertyID}}" onclick="return confirm('Are you sure you would like to delete this property?')">Delete Property</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+
+    <form class="resp-form" action="/add_prop/{{owner.OwnerID}}" method="POST">
+        <h4>Register a new property for {{owner.FName~" "~owner.LName}}.</h4><br>
+        <label for="desc">Property Description:</label>
+        <input type="text" name="desc" id="desc" required><br>
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state" required><br>
+        <label>City:</label>
+        <input type="text" name="city" id="city" required><br>
+        <label>Street Address:</label>
+        <input type="text" name="addr" id="addr" required><br>
+        <label>Zip:</label>
+        <input type="text" name="zip" id="zip" required><br>
+        <input type="submit" value="Add Property"><br>
+        <a href="/add_owner">Back to Customers</a>
+    </form>
+    
+{% endblock %}

@@ -1,0 +1,49 @@
+Owner
+	CREATE - Done
+	READ - Done
+	UPDATE - Done
+	DELETE - Done
+	INVOICE
+Property
+	CREATE - Done
+	READ - Done
+	UPDATE - Done
+	DELETE - Done
+	WORKORDER SCHEDULE
+Workman
+	CREATE - Done
+	READ - Done
+	UPDATE
+	DELETE - Done
+	PAYROLL
+WorkExperience
+	CREATE
+	READ
+	UPDATE
+	DELETE
+Service
+	CREATE  - Done
+	READ  - Done
+	UPDATE
+	DELETE  - Done
+Equipment
+	CREATE - Done
+	READ - Done
+	UPDATE
+	DELETE - Done
+	Next Repair Date - Done
+Repair
+	CREATE
+	READ
+	UPDATE
+	DELETE
+Timesheet
+	CREATE
+	READ
+	UPDATE
+	DELETE
+WorkOrder
+	CREATE - Done
+	READ - Done
+	UPDATE  - Done
+	DELETE - Done

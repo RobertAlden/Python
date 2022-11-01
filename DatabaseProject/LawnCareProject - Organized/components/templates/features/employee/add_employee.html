@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Employees</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a class="active" href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Employees</h1>
+    {% if employees|length < 1 %}
+    <h4 style="text-align: center">There are no employees. Register one below.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Contact Info.</th>
+            <th>Hire Date</th>
+            <th>Years Employed</th>
+            <th >Pay Rate</th>
+            <th>Actions</th>
+            <th width="150px">Manage</th>
+        </tr>
+        {% for employee in employees %}
+            <tr>
+                <td>
+                    {{ employee.FName ~ " " ~ employee.LName }}
+                </td>
+                <td>
+                    {{ employee.PhoneNum }}<br>
+                </td>
+                <td>
+                    {{ employee.HireDate.strftime('%Y-%m-%d')}}
+                </td>
+                <td>
+                    {{ (employee.HireDate|longevity) }} Years
+                </td>
+                <td>
+                    {{ "$%.2f"|format(employee.PayRate/100) }}
+                </td>
+                <td>
+                    <a href="/view_timesheets/{{employee.WMID}}">View Timesheets</a><br>
+                </td>
+                <td>
+                    <a href="/update_employee/{{employee.WMID}}">Update Info</a><br>
+                    <a href="/delete_employee/{{employee.WMID}}"onclick="return confirm('Are you sure you would like to delete this employee?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+    
+    <form class="resp-form" action="/add_employee" method="POST">
+        <h4>Register New Employee:</h4><br>
+        <label for="fname">First Name:</label>
+        <input type="text" name="fname" id="fname" required><br>
+        <label for="lname">Last Name:</label>
+        <input type="text" name="lname" id="lname" required><br>
+        <label>Hourly Rate (cents):</label>
+        <input type="text" name="payrate" id="payrate" required><br>
+        <label>Hire Date:</label>
+        <input type="date" name="hiredate" id="hiredate" required><br>
+        <label>Phone Number:</label>
+        <input type="tel" name="num" id="num"><br>
+        <input type="submit" value="Add Employee"><br>
+        <a href="/">Back to Main Page</a>
+    </form>
+    <br>
+{% endblock %}

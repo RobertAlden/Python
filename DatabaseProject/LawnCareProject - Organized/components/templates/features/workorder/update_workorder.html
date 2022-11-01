@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Manage Workorder</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a class="active" href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Workorders</h1>
+    
+    <form class="resp-form" action="/update_workorder/{{workorder.WOID}}" method="POST">
+        <h4>Update Workorder:</h4><br>
+        <label for="desc">Work Order Description:</label>
+        <input type="text" name="desc" id="desc" value="{{workorder.WODesc}}"><br>
+
+        <label>Property:</label>
+        <select id="property" name="property">
+            {% for property in properties %}
+                <option value="{{property.PropertyID}}" {% if workorder.PropertyID == property.PropertyID %} selected{% endif %}>{{ property.PropertyDesc~" @ "~property.StreetAddress~", "~property.City~" "~property.State~" "~property.Zip}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Service Description:</label>
+        <select id="service" name="service">
+            {% for service in services %}
+                <option value="{{service.ServiceID}}" {% if workorder.ServiceID == service.ServiceID %} selected{% endif %}>{{service.ServiceDesc}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Employee Assigned:</label>
+        <select id="employee" name="employee">
+            {% for employee in employees %}
+                <option value="{{employee.WMID}}" {% if workorder.WMID == employee.WMID %} selected{% endif %}>{{employee.FName~" "~employee.LName}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Equipment:</label>
+        <select id="equipment" name="equipment">
+            {% for equip in equipment %}
+                <option value="{{equip.EquipID}}" {% if workorder.EquipID == equip.EquipID %} selected{% endif %}>{{ equip.EquipDesc }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Complete?</label>
+        <input type="checkbox" style="width:40px;height:40px;" name="complete" id="complete" {% if workorder.IsComplete == True %} checked {% endif %} value="CHECKED"><br>
+
+        <label>Scheduled Date:</label>
+        <input type="date" name="scheduleddate" id="scheduleddate" value="{{workorder.ScheduledDate.strftime('%Y-%m-%d') }}" required><br>
+
+        <label>Expected Start Time:</label>
+        <input type="time" name="starttime" id="starttime" value="{{workorder.StartTime|time_iso}}" required><br>
+
+        <label>Expected End Time:</label>
+        <input type="time" name="endtime" id="endtime" value="{{workorder.EndTime|time_iso}}" required><br>
+        <input type="submit" value="Update Workorder">
+        <br>
+        <a href="/add_workorder">Back to Workorders (no changes will be made)</a>
+    </form>
+    
+{% endblock %}

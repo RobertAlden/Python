@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Updating Property</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+<h1 style="text-align: center">Updating Property </h1>
+<form class="resp-form" action="/update_prop/{{owner.OwnerID}}/{{property.PropertyID}}" method="POST">
+    <h4>Updating Property:</h4><br>
+    <label for="state">Property Description:</label>
+    <input type="text" name="desc" id="desc" value="{{property.PropertyDesc}}" required><br>
+    <label for="state">State:</label>
+    <input type="text" name="state" id="state" value="{{property.State}}" required><br>
+    <label>City:</label>
+    <input type="text" name="city" id="city" value="{{property.City}}" required><br>
+    <label>Street Address:</label>
+    <input type="text" name="addr" id="addr" value="{{property.StreetAddress}}" required><br>
+    <label>Zip:</label>
+    <input type="text" name="zip" id="zip" value="{{property.Zip}}" required><br>
+    <input type="submit" value="Update Property"><br>
+    <a href="/add_prop/{{owner.OwnerID}}">Back to Properties</a>    
+</form>
+    
+{% endblock %}

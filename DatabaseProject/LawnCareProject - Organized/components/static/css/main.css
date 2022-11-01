@@ -1,0 +1,183 @@
+body, html {
+
+    margin: 0;
+    font-family: sans-serif;
+}
+
+
+
+body {
+    background-color: #94a8a4;
+}
+
+a:link, a:visited {
+  color: #2d75bd;
+  text-decoration: underline;
+  cursor: auto;
+}
+
+a:link:active, a:visited:active {
+  color: #163a5e;
+}
+
+a.delete a:link,.delete a:visited {
+  color: #d14a38;
+  text-decoration: underline;
+  cursor: auto;
+}
+
+a.delete:link:active,a.delete:visited:active {
+  color: #9c392c;
+}
+
+.resp-table {
+    width: 70%;
+    border: 2px solid black;
+    margin: auto;
+}
+
+.resp-table table {
+    width: 100%;
+    border: 1px dotted black;   
+    background-color: #cbedf5;
+}
+
+
+.resp-table th {
+    background-color: #7bb9c7;
+	height: 25px;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid black;
+    border-left:  2px solid black;
+}
+
+.resp-table tr {
+    border: 1px solid #aaa;
+}
+
+.resp-table td {
+    background-color: #c3cfbc;
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid black;
+    border-left:  2px solid black;
+}
+
+.resp-form {
+    width: 70%;
+    margin: auto;
+    margin-bottom: 100px;
+}
+
+.resp-form h4 { 
+    width: 50%;
+    display: inline-block; 
+    padding: 5px;
+}
+
+.resp-form label { 
+    width: 15%;
+    display: inline-block; 
+    padding: 5px;
+}
+
+.resp-form input { 
+    width: 30%;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.resp-form input[type="submit"] {
+    width: 15%;
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    padding: 5px;
+}
+
+.resp-form a {
+  
+}
+
+#content {
+    width: 70%;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Add a black background color to the top navigation */
+.tndiv {
+
+}
+.tndiv h1{
+  text-align: center;
+}
+
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.splash {
+    text-align: center;
+}
+
+.stats {
+    background-color: #c3cfbc;
+    margin: auto;
+    width: 100%;
+    text-align: left;
+    border: 2px dotted black;
+    padding: 10px;
+}

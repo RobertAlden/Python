@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Workorder</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a class="active" href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Workorders</h1>
+    {% if workorders|length < 1 %}
+    <h4 style="text-align: center">There are no workorders. Register one below.</h4>
+    {% else %}
+    <form class="resp-form" action="/add_workorder" method="POST">
+        Showing Work Orders:<br>
+        <label>From:</label>
+        <input type="date" name="startdate" id="startdate"><br>
+        <label>To:</label>
+        <input type="date" name="enddate" id="enddate"><br>
+        <label>Show completed Work Orders?:</label>
+        <input type="checkbox" style="width:40px;height:40px;" name="complete" id="complete" value="CHECKED"><br>
+        <input type="hidden" name="ident" value="filter">
+        <input type="submit" name="filter_button" value="Filter">
+    </form>
+    <br>
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Workorder Description</th>
+            <th>Service</th>
+            <th>Employee Assigned</th>
+            <th>Property</th>
+            <th>Address</th>
+            <th>Is Complete</th>
+            <th>Date Scheduled</th>
+            <th>Estimated Duration</th>
+            <th>Price</th>
+            <th width="150px">Manage</th>
+        </tr>
+        {% for workorder,service,employee,property in workorders %}
+            <tr>
+                <td>
+                    {{ workorder.WODesc }}
+                </td>
+                <td>
+                    {{ service.ServiceDesc }}
+                </td>
+                <td>
+                    <a href="/view_timesheets/{{employee.WMID}}">{{ employee.FName~" "~employee.LName }}</a>
+                </td>
+                <td>
+                    {{ property.PropertyDesc }}
+                </td>
+                <td>
+                    <a href="/prop_workorders/{{property.OwnerID}}/{{property.PropertyID}}">
+                        {{ property.StreetAddress }} <br> {{ property.City~" "~property.State~" "~property.Zip}}
+                    </a>
+                </td>
+                <td>
+                    {{ workorder.IsComplete }}
+                </td>
+                <td>
+                    {{ workorder.StartTime }}
+                    {% if workorder.IsComplete != True %}
+                        <div class="tooltip" style="color:#FF0000">
+                            {{ workorder.StartTime|is_late }}
+                          <span class="tooltiptext" style="color:#FF0000">Late</span>
+                        </div>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ workorder.StartTime|date_sub(workorder.EndTime) }} hours
+                </td>
+                <td>
+                    {{"$%.2f"|format(
+                        ((workorder.StartTime|date_sub(workorder.EndTime)*
+                        service.HourCost + service.BaseCost)/100)+
+                        (workorder.StartTime|date_sub(workorder.EndTime)*
+                        workorder.PayRate)/100
+                        ) 
+                    }}
+                </td>
+                <td>
+                    <a href="/update_workorder/{{workorder.WOID}}">Update Status</a> <br>
+                    <a href="/delete_workorder/{{workorder.WOID}}" onclick="return confirm('Are you sure you would like to delete this workorder?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+    
+    <form class="resp-form" action="/add_workorder" method="POST">
+        <h4>Register New Workorder:</h4><br>
+        <label for="desc">Work Order Description:</label>
+        <input type="text" name="desc" id="desc"><br>
+        <label>Property:</label>
+        <select id="property" name="property">
+            {% for property in properties %}
+                <option value="{{property.PropertyID}}">{{ property.PropertyDesc~" @ "~property.StreetAddress~", "~property.City~" "~property.State~" "~property.Zip}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Service Description:</label>
+        <select id="service" name="service">
+            {% for service in services %}
+                <option value="{{service.ServiceID}}">{{service.ServiceDesc}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Employee Assigned:</label>
+        <select id="employee" name="employee">
+            {% for employee in employees %}
+                <option value="{{employee.WMID}}">{{employee.FName~" "~employee.LName}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Equipment:</label>
+        <select id="equipment" name="equipment">
+            {% for equip in equipment %}
+                <option value="{{equip.EquipID}}">{{ equip.EquipDesc }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Scheduled Date:</label>
+        <input type="date" name="scheduleddate" id="scheduleddate" required><br>
+
+        <label>Expected Start Time:</label>
+        <input type="time" name="starttime" id="starttime" required><br>
+
+        <label>Expected End Time:</label>
+        <input type="time" name="endtime" id="endtime" required><br>
+        <input type="hidden" name="ident" value="add">
+        <input type="submit" name="submit_button" value="Add Workorder">
+        <br>
+        <a href="/">Back to Main Page</a>
+    </form>
+    
+{% endblock %}

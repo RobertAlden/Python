@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Service</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a class="active" href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Services</h1>
+    {% if services|length < 1 %}
+    <h4 style="text-align: center">There are no services. Register one below.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Service Description</th>
+            <th>Base Price</th>
+            <th>Hourly Price</th>
+            <th width="150px">Manage</th>
+        </tr>
+        {% for service in services %}
+            <tr>
+                <td>
+                    {{ service.ServiceDesc }}
+                </td>
+                <td>
+                    {{ "$%.2f"|format(service.BaseCost/100) }}
+                </td>
+                <td>
+                    {{ "$%.2f"|format(service.HourCost/100) }}
+                </td>
+                <td>
+                    <a href="/update_service/{{service.ServiceID}}">Update</a><br>
+                    <a href="/delete_service/{{service.ServiceID}}" onclick="return confirm('Are you sure you would like to delete this service?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+    
+    <form class="resp-form" action="/add_service" method="POST">
+        <h4>Register New Service:</h4><br>
+        <label>Service Description:</label>
+        <input type="text" name="desc" id="desc" required><br>
+        <label>Service Base Price (cents):</label>
+        <input type="num" name="basecost" id="basecost" required><br>
+        <label>Service Hourly Price (cents):</label>
+        <input type="num" name="hourcost" id="hourcost" required><br> 
+        <input type="submit" value="Add Service"><br>
+        <a href="/">Back to Main Page</a>
+    </form>
+
+
+{% endblock %}

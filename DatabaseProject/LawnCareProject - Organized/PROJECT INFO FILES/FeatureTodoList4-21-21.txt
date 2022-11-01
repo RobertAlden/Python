@@ -1,0 +1,37 @@
+Implemetation:
+	Owner - FINISHED
+	Property - FINISHED
+	Workman - FINISHED
+	Service - FINISHED
+	Equipment
+		WorkOrder History
+		Due Date Alert - FINISHED
+	Repair - FINISHED
+	Timesheet - FINISHED
+	WorkOrder
+		Filter by Complete, Date
+		Due Date Alert - FINISHED
+
+	Quality Pass
+	CSS Pass
+
+_DOCUMENTATION_
+
+Enterprise Model Report
+
+Conceptual Model Report - NO Foreign Keys
+
+Logical Model Report
+
+Update Physical Model to reflect changes in Database Project
+Physical Model Report
+
+User Map
+
+User Manual
+
+Create Presentation
+
+Installation
+
+DUE DATE --- MAY 5 // T-MINUS 14 DAYS AS OF 4/21/21

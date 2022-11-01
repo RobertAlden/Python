@@ -1,0 +1,95 @@
+CREATE TABLE Workman
+(
+  WMID INT NOT NULL,
+  FName CHAR(25) NOT NULL,
+  LName CHAR(25) NOT NULL,
+  PayRate INT NOT NULL,
+  HireDate DATE NOT NULL,
+  PhoneNum INT,
+  PRIMARY KEY (WMID)
+);
+
+CREATE TABLE Service
+(
+  ServiceID INT NOT NULL,
+  ServiceDesc CHAR(200) NOT NULL,
+  BaseCost INT NOT NULL,
+  HourCost INT NOT NULL,
+  PRIMARY KEY (ServiceID)
+);
+
+CREATE TABLE Equipment
+(
+  EquipID INT NOT NULL,
+  EquipDesc CHAR(50) NOT NULL,
+  ServicePeriod INT NOT NULL,
+  DateLastServiced DATE NOT NULL,
+  PRIMARY KEY (EquipID)
+);
+
+CREATE TABLE Owner
+(
+  OwnerID INT NOT NULL,
+  FName CHAR(25) NOT NULL,
+  LName CHAR(25) NOT NULL,
+  State CHAR(25) NOT NULL,
+  City CHAR(25) NOT NULL,
+  StreetAddress CHAR(25) NOT NULL,
+  Zip INT NOT NULL,
+  PhoneNum CHAR(20),
+  PRIMARY KEY (OwnerID)
+);
+
+CREATE TABLE Property
+(
+  PropertyID INT NOT NULL,
+  State CHAR(25) NOT NULL,
+  City CHAR(25) NOT NULL,
+  StreetAddress CHAR(50) NOT NULL,
+  Zip INT NOT NULL,
+  PropertyDesc VARCHAR(50),
+  OwnerID INT NOT NULL,
+  PRIMARY KEY (PropertyID),
+  FOREIGN KEY (OwnerID) REFERENCES Owner(OwnerID)
+);
+
+CREATE TABLE WorkOrder
+(
+  ScheduledDate DATE NOT NULL,
+  StartTime DATE NOT NULL,
+  EndTime DATE NOT NULL,
+  IsComplete INT NOT NULL,
+  WODesc VARCHAR(100),
+  WOID INT NOT NULL,
+  PayRate INT,
+  ServiceID INT NOT NULL,
+  EquipID INT NOT NULL,
+  WMID INT NOT NULL,
+  PropertyID INT NOT NULL,
+  PRIMARY KEY (WOID),
+  FOREIGN KEY (ServiceID) REFERENCES Service(ServiceID),
+  FOREIGN KEY (EquipID) REFERENCES Equipment(EquipID),
+  FOREIGN KEY (WMID) REFERENCES Workman(WMID),
+  FOREIGN KEY (PropertyID) REFERENCES Property(PropertyID)
+);
+
+CREATE TABLE Timesheet
+(
+  StartTime DATE NOT NULL,
+  EndTime DATE NOT NULL,
+  PayRate INT NOT NULL,
+  TSID INT NOT NULL,
+  WMID INT NOT NULL,
+  PRIMARY KEY (TSID),
+  FOREIGN KEY (WMID) REFERENCES Workman(WMID)
+);
+
+CREATE TABLE Repairs
+(
+  Date INT NOT NULL,
+  RepairDesc CHAR(50) NOT NULL,
+  RepairID INT NOT NULL,
+  EquipID INT NOT NULL,
+  PRIMARY KEY (RepairID),
+  FOREIGN KEY (EquipID) REFERENCES Equipment(EquipID)
+);

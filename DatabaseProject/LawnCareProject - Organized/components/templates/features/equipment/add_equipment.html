@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Equipment</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a class="active" href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Equipment</h1>
+    {% if equipment|length < 1 %}
+    <h4 style="text-align: center">There is no equipment. Register one below.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Equipment Description</th>
+            <th>Date Last Serviced</th>
+            <th>Service Period(Days)</th>
+            <th>Next Service Date</th>
+            <th>Actions</th>
+            <th width="150px">Manage</th>
+        </tr>
+        {% for equip in equipment %}
+            <tr>
+                <td>{{ equip.EquipDesc }}</td>
+                <td>
+                    {{ equip.DateLastServiced.strftime('%Y-%m-%d')}}
+
+                </td>
+                <td>{{ equip.ServicePeriod }}<br>
+                    
+                </td>
+                <td>
+                    {{ (equip.DateLastServiced|dt_delta(equip.ServicePeriod)).strftime('%Y-%m-%d') }}
+                    <div class="tooltip" style="color:#FF0000">
+                        {{ (equip.DateLastServiced|dt_delta(equip.ServicePeriod))|is_late }}
+                      <span class="tooltiptext" style="color:#FF0000">Late</span>
+                    </div>
+
+                    <span >
+                    
+                    </span>
+                </td>
+                <td>
+                    <a href="/add_repair/{{equip.EquipID}}">View Repair History</a><br>
+                    <a href="/equip_workorders/{{equip.EquipID}}">View Work History</a>
+                </td>
+                <td>
+                    
+                    <a href="/update_equip/{{equip.EquipID}}">Update</a><br>
+                    <a href="/delete_equip/{{equip.EquipID}}" onclick="return confirm('Are you sure you would like to delete this equipment?')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endif %}
+
+    <form class="resp-form" action="/add_equip" method="POST">
+        <h4>Register New Equipment:</h4><br>
+        <label>Equipment Description:</label>
+        <input type="text" name="desc" id="desc" required><br>
+        <label>Date Last Serviced:</label>
+        <input type="date" name="lastserviceddate" id="lastserviceddate" required><br>
+        <label>Service Period (Days):</label>
+        <input type="num" name="period" id="period" required><br>
+        
+        <input type="submit" value="Add Equipment">
+        <br>
+        <a href="/">Back to Main Page</a>
+    </form>
+    
+{% endblock %}

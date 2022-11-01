@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Owner</title>
+{% endblock %}
+
+{% block body %}
+<div class="tndiv">
+    <h1>Lawn+Care Management Application</h1>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/add_owner">Customers</a>
+        <a href="/add_employee">Employees</a>
+        <a href="/add_equip">Equipment</a>
+        <a href="/add_service">Services</a>
+        <a href="/add_workorder">Workorders</a>
+    </div>
+</div>
+    <h1 style="text-align: center">Invoice for {{owner.FName~" "~owner.LName}}</h1>
+    {% if workorders|length < 1 %}
+    <h4 style="text-align: center">There are no workorders servicing this owner.</h4>
+    {% else %}
+    <div class="resp-table">
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Employee Assigned</th>
+            <th>Property</th>
+            <th>Address</th>
+            <th>Date Completed</th>
+            <th>Duration</th>
+            <th>Price</th>
+        </tr>
+        {% for workorder,service,employee,property in workorders %}
+            <tr>
+                <td>
+                    {{ service.ServiceDesc }}
+                </td>
+                <td>
+                    {{ employee.FName~" "~employee.LName }}
+                </td>
+                <td>
+                    {{ property.PropertyDesc }}
+                </td>
+                <td>
+                    {{ property.StreetAddress }} <br> {{ property.City~" "~property.State~" "~property.Zip}}
+                </td>
+                <td>
+                    {{ workorder.EndTime }}
+                </td>
+                <td>
+                    {{ workorder.StartTime|date_sub(workorder.EndTime) }} hours
+                </td>
+                <td>
+                    {{"$%.2f"|format(
+                        ((workorder.StartTime|date_sub(workorder.EndTime)*
+                        service.HourCost + service.BaseCost)/100)+
+                        (workorder.StartTime|date_sub(workorder.EndTime)*
+                        workorder.PayRate)/100
+                        ) 
+                    }}
+                </td>
+            </tr>
+        {% endfor %}
+    
+    <tr>
+        <td colspan="6" style="text-align:right;"> Subtotal for services rendered: </td>
+        <td>
+            {{ (workorders|subtotal) }}
+        </td>
+    </tr>
+    </table>
+    </div>
+    {% endif %}
+    <br>
+    <div class="resp-form">
+    <a href="/add_owner">Back to Customers</a>
+    </div>
+{% endblock %}

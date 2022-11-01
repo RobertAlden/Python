@@ -1,0 +1,11 @@
+Owner - FINISHED
+Property - FINISHED
+Workman - FINISHED
+Service - FINISHED
+Equipment - FINISHED
+Repair - FINISHED
+Timesheet
+	Needs wage field added
+WorkOrder - FINISHED
+Quality Pass
+CSS Pass
